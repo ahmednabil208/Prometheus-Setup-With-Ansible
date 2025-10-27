@@ -1,13 +1,19 @@
-# promethus-setup
-## Prometheus, Node-Exporter Setup Guide
-This guide provides step-by-step instructions for setting up various components of a monitoring stack including Prometheus and Node-Exporter.
+# Prometheus Monitoring Setup  
+## Prometheus & Node Exporter Installation Guide  
 
-## Prerequisites
-Before you begin, ensure you have the following prerequisites:
+This repository provides clear, step-by-step instructions for deploying a basic monitoring stack using **Prometheus** and **Node Exporter**. It’s designed to help you easily set up and monitor your system’s performance metrics.  
 
-Access to a Linux-based server (physical or virtual)
-I choose to create an EC2 instance that has the following:
-    - Ubuntu as an operating system
-    - A security group that allows
-        - port 9090 for promethus
-        - port 9100 for node_exporter
+---
+
+##  Prerequisites  
+
+Before starting, make sure you have the following:  
+
+- Access to a **Linux-based** machine (physical, virtual, or cloud instance).  
+- In this setup, an **AWS EC2 instance** is used with:  
+  - **Operating System:** Ubuntu  
+  - **Security Group Configuration:**  
+    - Open **port 9090** → for Prometheus  
+    - Open **port 9100** → for Node Exporter  
+
+---
