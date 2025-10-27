@@ -1,0 +1,6 @@
+---
+# handlers file for prometheus
+
+# Used in node exporter and prometheus
+  - name: Reload systemd daemon
+    command: systemctl daemon-reload

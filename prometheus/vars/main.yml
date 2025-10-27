@@ -1,0 +1,26 @@
+---
+# vars file for prometheus
+
+    # docker
+    docker_dependencies:
+      - ca-certificates 
+      - curl 
+      - gnupg 
+      - lsb-release
+
+    docker_packages:
+      - docker-ce 
+      - docker-ce-cli 
+      - containerd.io 
+      - docker-compose-plugin
+
+    docker_gpg_key: https://download.docker.com/linux/ubuntu/gpg 
+    docker_gpg_path: /usr/share/keyrings/docker-archive-keyring.gpg
+    docker_repo: https://download.docker.com/linux/ubuntu
+
+
+    # prometheus
+    prom_repo: https://github.com/prometheus/prometheus/releases/download/v2.52.0/prometheus-2.52.0.linux-amd64.tar.gz
+
+    # node exporter
+    node_exp_repo: https://github.com/prometheus/node_exporter/releases/download/v1.8.0/node_exporter-1.8.0.linux-amd64.tar.gz

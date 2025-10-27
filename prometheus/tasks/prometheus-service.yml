@@ -1,0 +1,81 @@
+    - name: add Prometheus user with no shell
+      user:
+        name: prometheus
+        shell: {{ no_shell }}
+        create_home: false
+
+    - name: create Prometheus configuration & data directory 
+      file:   
+        path: "{{ item }}"
+        state: directory
+        owner: prometheus
+        group: prometheus
+        mode: '0777'
+      loop:
+        - "{{ config_dir }}"
+        - "{{ lib_dir }}"
+
+
+    - name: download Prometheus installation archive
+      get_url:
+        url:  {{ prom_repo}}
+        dest: /tmp/prometheus-2.52.0.linux-amd64.tar.gz
+
+    - name: Extract Prometheus archive
+      unarchive:
+        src: /tmp/prometheus-2.52.0.linux-amd64.tar.gz
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Copy configuration files
+      copy: 
+        src: "/tmp/prometheus-2.52.0.linux-amd64/{{ item }}"
+        dest: "{{ config_dir }}/{{ item }}"
+        owner: prometheus
+        group: prometheus
+        mode: '0777'
+        remote_src: yes  
+      loop:
+        - console_libraries
+        - consoles
+        - prometheus.yml
+
+    - name: Copy binaries
+      copy: 
+        src: "/tmp/prometheus-2.52.0.linux-amd64/{{ item }}"
+        dest: "{{ binary_dir }}/{{ item }}"
+        owner: prometheus
+        group: prometheus
+        mode: '0777'
+        remote_src: yes  
+      loop:
+        - prometheus
+        - promtool
+
+    - name: Set ownership for Prometheus binaries
+      file:
+        path: "{{ binary_dir }}/{{ item }}"
+        owner: prometheus
+        group: prometheus
+      loop:
+        - prometheus
+        - promtool
+
+
+    - name: finally create the service file to be able to restart the Prometheus service
+      template:
+        src: prometheus.service.j2
+        dest: /etc/systemd/system/prometheus.service
+      notify: Reload systemd daemon
+
+
+
+    - name:  start and enable Prometheus service
+      service:
+        name: prometheus
+        state: started
+        enabled: yes
+
+
+
+

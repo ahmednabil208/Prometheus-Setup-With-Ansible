@@ -1,0 +1,49 @@
+---
+# tasks file for prometheus
+
+    ## install docker
+    - name: Update the cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker dependencies
+      apt:
+        name: "{{ docker_dependencies }}"
+        state: present
+
+    - name: Download GPG Key
+      command:
+        cmd: curl -fsSL {{ docker_gpg_key }} | gpg --dearmor -o {{ docker_gpg_path }}
+        creates: "{{ docker_gpg_path }}"
+
+    - name: Add Docker Repo
+      apt_repository:
+        repo: "deb [arch={{ ansible_architecture }} signed-by={{ docker_gpg_path }}] {{ docker_repo }} {{ ansible_lsb.codename }} stable" 
+        state: present
+        filename: docker
+
+    - name: Update the cache
+      apt:
+        update_cache: yes
+
+    - name: Install docker packages
+      apt:
+        name: "{{ docker_packages }}"
+        state: present   
+
+    - name: Start and enable docker
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    ## install nodejs and npm
+    - name: Install nodejs
+      apt: 
+        name: nodejs
+        state: present
+
+    - name: Install npm
+      apt: 
+        name: npm
+        state: present

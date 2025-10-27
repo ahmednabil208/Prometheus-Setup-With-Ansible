@@ -1,0 +1,39 @@
+    # Install Node Exporter as a Service
+    - name: add node_exporter user with no shell
+      user:
+        name: node_exporter
+        shell: {{ no_shell }}
+        create_home: false
+
+    - name: download Node Exporter instalation directory
+      get_url: 
+        url: {{ node_exp_repo }}
+        dest: /tmp/node_exporter-1.8.0.linux-amd64.tar.gz
+
+    - name: extract files
+      unarchive:
+        src: /tmp/node_exporter-1.8.0.linux-amd64.tar.gz
+        dest: /tmp
+        remote_src: yes
+
+    - name: copy binary files like node_exporter 
+      copy:
+        src: /tmp/node_exporter-1.8.0.linux-amd64/node_exporter
+        dest: "{{ binary_dir }}/node_exporter"
+        owner: node_exporter
+        group: node_exporter
+        mode: '0755'   
+        remote_src: yes
+
+    - name: Create the service file to be able to restart the Node Exporter Service
+      template:
+        src: node_exporter.service.j2
+        dest: /etc/systemd/system/node_exporter.service
+        mode: '0644'
+      notify: Reload systemd daemon
+
+    - name: start and enable Node_Exporter service
+      service: 
+        name: node_exporter
+        state: started
+        enabled: yes

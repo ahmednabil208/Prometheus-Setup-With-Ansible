@@ -1,0 +1,10 @@
+---
+- name: Prometheus Setup using Ansible
+  hosts: prometheus-servers
+  become: yes
+  vars:
+
+  roles:
+    - prometheus
+
+    

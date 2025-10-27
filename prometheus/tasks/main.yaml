@@ -1,0 +1,8 @@
+- name: Install docker and nodejs
+  include_tasks: docker-npm-nodejs.yml
+
+- name: Install prometheus ad a service
+  include_tasks: prometheus-service.yml
+
+- name: Install node exporter as a service
+  include_tasks: node-exporter.yaml

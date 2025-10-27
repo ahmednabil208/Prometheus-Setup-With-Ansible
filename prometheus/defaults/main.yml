@@ -1,0 +1,8 @@
+---
+# defaults file for prometheus
+
+# Prometheus service defaults
+  config_dir: /etc/prometheus
+  lib_dir: /var/lib/prometheus
+  binary_dir: /usr/local/bin
+  no_shell: /bin/false
