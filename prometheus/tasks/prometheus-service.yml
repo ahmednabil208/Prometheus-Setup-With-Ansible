@@ -52,15 +52,6 @@
         - prometheus
         - promtool
 
-    - name: Set ownership for Prometheus binaries
-      file:
-        path: "{{ binary_dir }}/{{ item }}"
-        owner: prometheus
-        group: prometheus
-      loop:
-        - prometheus
-        - promtool
-
 
     - name: finally create the service file to be able to restart the Prometheus service
       template:
