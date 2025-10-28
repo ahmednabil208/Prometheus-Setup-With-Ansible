@@ -2,12 +2,12 @@
     - name: add node_exporter user with no shell
       user:
         name: node_exporter
-        shell: {{ no_shell }}
+        shell: "{{ no_shell }}"
         create_home: false
 
     - name: download Node Exporter instalation directory
       get_url: 
-        url: {{ node_exp_repo }}
+        url: "{{ node_exp_repo }}"
         dest: /tmp/node_exporter-1.8.0.linux-amd64.tar.gz
 
     - name: extract files
@@ -16,7 +16,7 @@
         dest: /tmp
         remote_src: yes
 
-    - name: copy binary files like node_exporter 
+    - name: copy binary files to /usr/local/bin
       copy:
         src: /tmp/node_exporter-1.8.0.linux-amd64/node_exporter
         dest: "{{ binary_dir }}/node_exporter"

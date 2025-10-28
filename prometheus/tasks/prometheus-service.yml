@@ -1,7 +1,7 @@
     - name: add Prometheus user with no shell
       user:
         name: prometheus
-        shell: {{ no_shell }}
+        shell: "{{ no_shell }}"
         create_home: false
 
     - name: create Prometheus configuration & data directory 
@@ -10,7 +10,7 @@
         state: directory
         owner: prometheus
         group: prometheus
-        mode: '0777'
+        mode: '0755'
       loop:
         - "{{ config_dir }}"
         - "{{ lib_dir }}"
@@ -18,7 +18,7 @@
 
     - name: download Prometheus installation archive
       get_url:
-        url:  {{ prom_repo}}
+        url:  "{{ prom_repo }}"
         dest: /tmp/prometheus-2.52.0.linux-amd64.tar.gz
 
     - name: Extract Prometheus archive
@@ -33,7 +33,7 @@
         dest: "{{ config_dir }}/{{ item }}"
         owner: prometheus
         group: prometheus
-        mode: '0777'
+        mode: '0644'
         remote_src: yes  
       loop:
         - console_libraries
@@ -46,7 +46,7 @@
         dest: "{{ binary_dir }}/{{ item }}"
         owner: prometheus
         group: prometheus
-        mode: '0777'
+        mode: '0755'
         remote_src: yes  
       loop:
         - prometheus

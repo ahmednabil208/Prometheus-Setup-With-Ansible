@@ -2,8 +2,8 @@
 - name: Prometheus Setup using Ansible
   hosts: prometheus-servers
   become: yes
-  vars:
-
+  gather_facts: yes
+  
   roles:
     - prometheus
 
